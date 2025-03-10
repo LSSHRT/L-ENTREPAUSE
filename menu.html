@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - l'EntrePause</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .menu-section {
+            padding: 2rem 0;
+        }
+        
+        .menu-category {
+            margin-bottom: 3rem;
+        }
+        
+        .menu-category h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .menu-item-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .menu-item:hover .menu-item-image img {
+            transform: scale(1.05);
+        }
+        
+        .menu-item-info {
+            padding: 1.5rem;
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .menu-item-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .menu-item-price {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .menu-item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-item-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .menu-item-tag {
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+        }
+        
+        .menu-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/menu-banner.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-top: 70px;
+        }
+        
+        .menu-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .menu-info {
+            background-color: var(--light-bg);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .menu-info-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .menu-info h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-info p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .menu-info .price-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>l'EntrePause</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="carte.html">Carte</a></li>
+                    <li><a href="reservation.html">Réservation</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="menu-banner">
+        <h2>Notre Menu</h2>
+        <p>Découvrez notre sélection de plats préparés avec des produits frais et de saison. Notre formule à volonté vous permet de goûter à toutes nos spécialités.</p>
+        <a href="reservation.html" class="btn">Réserver une table</a>
+    </section>
+
+    <section class="menu-info">
+        <div class="container">
+            <div class="menu-info-content">
+                <h3>Formule à Volonté</h3>
+                <p>Notre restaurant vous propose une formule à volonté qui vous permet de déguster l'ensemble de nos plats sans limitation. Profitez d'une expérience gastronomique complète dans une ambiance chaleureuse.</p>
+                <div class="price-tag">30€ - 40€ par personne</div>
+                <p><strong>Moyens de paiement acceptés :</strong> Tickets Restaurant, Chèques Déjeuner</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Spécialités</h2>
+                <p>Des plats préparés avec passion</p>
+            </div>
+            
+            <div class="menu-category">
+                <h3>Entrées</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Salade de chèvre chaud">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Salade de Chèvre Chaud</h4>
+                            </div>
+                            <p class="menu-item-description">Salade fraîche avec toasts de chèvre chaud, miel, noix et vinaigrette balsamique.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Végétarien</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Foie gras maison">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Foie Gras Maison</h4>
+                            </div>
+                            <p class="menu-item-description">Foie gras mi-cuit préparé maison, accompagné de pain brioché et chutney de figues.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Spécialité</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1603073163308-9654c3fb70b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Velouté de saison">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Velouté de Saison</h4>
+                            </div>
+                            <p class="menu-item-description">Soupe onctueuse préparée avec les légumes de saison, servie avec des croûtons à l'ail.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Végétarien</span>
+                                <span class="menu-item-tag">De saison</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3>Plats Principaux</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Magret de canard">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Magret de Canard</h4>
+                            </div>
+                            <p class="menu-item-description">Magret de canard rôti, sauce au miel et aux épices, accompagné de pommes de terre sarladaises.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Spécialité</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Filet de bœuf">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Filet de Bœuf Rossini</h4>
+                            </div>
+                            <p class="menu-item-description">Filet de bœuf grillé, escalope de foie gras poêlée, sauce aux truffes et purée maison.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Signature</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1551248429-40975aa4de74?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Risotto aux champignons">
+                        </div>
+                        <div class="menu-item-info">
+                            <div class="menu-item-header">
+                                <h4 class="menu-item-title">Risotto aux Champignons</h4>
+                            </div>
+                            <p class="menu-item-description">Risotto crémeux aux champignons des bois, parmesan et huile de truffe.</p>
+                            <div class="menu-item-tags">
+                                <span class="menu-item-tag">Végétarien</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3>Desserts</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.

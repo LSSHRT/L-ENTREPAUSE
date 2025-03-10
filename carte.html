@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte - l'EntrePause</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .carte-banner {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/interieur3.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-top: 70px;
+        }
+        
+        .carte-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .carte-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .menu-container {
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .menu-tabs-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-tabs-scroll {
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            width: 100%;
+        }
+        
+        .menu-tabs-scroll::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .menu-tabs {
+            display: flex;
+            background: linear-gradient(135deg, var(--primary-color), #1a3a5f);
+            border-radius: 50px;
+            padding: 5px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: auto;
+        }
+        
+        .menu-tab {
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+        }
+        
+        .menu-tab i {
+            font-size: 1.1rem;
+        }
+        
+        .menu-tab:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .menu-tab.active {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .menu-tabs-nav {
+            display: flex;
+            gap: 10px;
+            margin-left: 15px;
+        }
+        
+        .menu-tab-prev,
+        .menu-tab-next {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .menu-tab-prev:hover,
+        .menu-tab-next:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .menu-content {
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .menu-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .menu-page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .menu-category {
+            margin-bottom: 3rem;
+            animation: slideIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .menu-category:nth-child(1) { animation-delay: 0.1s; }
+        .menu-category:nth-child(2) { animation-delay: 0.2s; }
+        .menu-category:nth-child(3) { animation-delay: 0.3s; }
+        .menu-category:nth-child(4) { animation-delay: 0.4s; }
+        
+        .menu-category-title {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .menu-category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--secondary-color), transparent);
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .menu-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background-color: var(--secondary-color);
+            transition: height 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .menu-item:hover::before {
+            height: 100%;
+        }
+        
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .menu-item-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover .menu-item-title {
+            transform: translateX(8px);
+        }
+        
+        .menu-item-price {
+            font-weight: 700;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .menu-item-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-tabs-nav {
+                display: none;
+            }
+            
+            .menu-tab {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .menu-tab i {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>l'EntrePause</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="carte.html" class="active">Carte</a></li>
+                    <li><a href="reservation.html">Réservation</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="carte-banner">
+        <h2>Notre Carte</h2>
+        <p>Découvrez notre sélection de plats préparés avec des produits frais et de saison dans notre carte interactive.</p>
+    </section>
+
+    <section class="carte-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Carte</h2>
+                <p>Découvrez nos spécialités culinaires</p>
+            </div>
+
+            <div class="menu-container">
+                <div class="menu-tabs-wrapper">
+                    <div class="menu-tabs-scroll">
+                        <div class="menu-tabs">
+                            <div class="menu-tab active" data-tab="plats-maison">
+                                <i class="fas fa-utensils"></i>
+                                <span>Plats Maison</span>
+                            </div>
+                            <div class="menu-tab" data-tab="Nos Desserts">
+                                <i class="fas fa-cheese"></i>
+                                <span>Nos Desserts</span>
+                            </div>
+                            <div class="menu-tab" data-tab="Nos Planches">
+                                <i class="fas fa-bread-slice"></i>
+                                <span>Nos Planches</span>
+                            </div>
+                            <div class="menu-tab" data-tab="nos-fondues">
+                                <i class="fas fa-glass-whiskey"></i>
+                                <span>Nos Fondues</span>
+                            </div>
+                            <div class="menu-tab" data-tab="Nos Boissons">
+                                <i class="fas fa-cocktail"></i>
+                                <span>Nos Boissons</span>
+                            </div>
+                            <div class="menu-tab" data-tab="Nos Cocktails">
+                                <i class="fas fa-wine-glass-alt"></i>
+                                <span>Nos Cocktails</span>
+                            </div>
+                            <div class="menu-tab" data-tab="Nos Vins">
+                                <i class="fas fa-child"></i>
+                                <span>Nos Vins</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-tabs-nav">
+                        <button class="menu-tab-prev" aria-label="Catégorie précédente">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="menu-tab-next" aria-label="Catégorie suivante">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-content">
+                    <!-- Plats Maison -->
+                    <div class="menu-page active" id="plats-maison">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Burgers</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Burger au Boeuf</h4>
+                                        <span class="menu-item-price">18,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Steak De Boeuf, Pain à Burger Artisanal, Noix De Jambon, Oignons Confits, Tomates Confites, Raclette, Salade, Sauce Tartare.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Burger au Poulet</h4>
+                                        <span class="menu-item-price">16,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Poulet Pané, Pain à Burger Artisanal, Noix De Jambon, Oignon, Salade, Sauce Fumé.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Burger Végétarien</h4>
+                                        <span class="menu-item-price">14,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Pain à Burger Artisanal, Oeufs Au Plat, Oignons Confits, Tomates, Raclette, Sauce tartare, Salade, Courgettes aigre-douce.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Burger Spiced</h4>
+                                        <span class="menu-item-price">17,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Poulet Pané, Pain à Burger Artisanal, Noix De Jambon, Oignons, Tomate, Raclette, Sauce Spicy.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Spécialités</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Wrap Chèvre</h4>
+                                        <span class="menu-item-price">7,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Galette, Crème Fraiche de Chèvre, Salade, Tomate, Jambon Blanc.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Croque Savoie</h4>
+                                        <span class="menu-item-price">10,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Pain De Mie Artisanal, Crème Fraiche, Meule De Savoie, Jambon Blanc.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Matouille</h4>
+                                        <span class="menu-item-price">18,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Morceau De Tomme De Savoie Au Lait Cru, Fondue Au Four, Jambon Sec, Salade.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Le Rebloch'fond</h4>
+                                        <span class="menu-item-price">18,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Morceau De Reblochon De Savoie Au Lait Cru, Fondu Au Four, Jambon Sec, Salade.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Autres Plats</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Tartiflette</h4>
+                                        <span class="menu-item-price">14,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Pommes De Terre, Oignons, Lardons, Crème Fraiche et Reblochon de Savoie, Salade Verte.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Pièce Du Boucher</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Pièce Selon Arrivage De La Ferme, Sauce Du Moment.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">L'Américain</h4>
+                                        <span class="menu-item-price">13,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Baguette Artisanale, Steak De Boeuf, Tomates, Sauce Tartare, Oignons Confits, Raclette, Potatoes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desserts -->
+                    <div class="menu-page" id="desserts">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Nos Desserts</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Crème Brûlée</h4>
+                                        <span class="menu-item-price">8€</span>
+                                    </div>
+                                    <p class="menu-item-description">Crème brûlée à la vanille de Madagascar, caramélisée au sucre roux.</p>
+                                </div>
+
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondant au Chocolat</h4>
+                                        <span class="menu-item-price">9€</span>
+                                    </div>
+                                    <p class="menu-item-description">Fondant au chocolat noir, cœur coulant et sa boule de glace vanille.</p>
+                                </div>
+
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Tarte Tatin</h4>
+                                        <span class="menu-item-price">8€</span>
+                                    </div>
+                                    <p class="menu-item-description">Tarte tatin aux pommes caramélisées, servie tiède avec crème fraîche.</p>
+                                </div>
+
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Café Gourmand</h4>
+                                        <span class="menu-item-price">9€</span>
+                                    </div>
+                                    <p class="menu-item-description">Café accompagné d'une sélection de mignardises : mini crème brûlée, macaron et brownie.</p>
+                                </div>
+
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Assiette de Fromages</h4>
+                                        <span class="menu-item-price">10€</span>
+                                    </div>
+                                    <p class="menu-item-description">Sélection de fromages affinés, accompagnés de confiture de figues et pain aux noix.</p>
+                                </div>
+
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Coupe de Fruits Frais</h4>
+                                        <span class="menu-item-price">7€</span>
+                                    </div>
+                                    <p class="menu-item-description">Assortiment de fruits frais de saison, sirop léger et sorbet citron.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dégustations Apéritives -->
+                    <div class="menu-page" id="Nos Planches">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Planches à Partager</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Petite Salaison</h4>
+                                        <span class="menu-item-price">11,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Chorizo doux et Chorizo Fort.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Grande Salaison</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Noix De Jambon, Carré.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Petite Fromage</h4>
+                                        <span class="menu-item-price">11,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Assortiments De Fromage, Selon Arrivage, Miel, Raisin, Confiture.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Grande Fromage</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Assortiments De Fromage, Selon La Sélection Du Moment, Miel, Raisin, Confiture.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Planches Mixtes & Spécialités</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Petite Mixte</h4>
+                                        <span class="menu-item-price">14,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Chorizo doux et Chorizo Fort. Assortiments De Fromage, Selon La Sélection Du Moment.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Grande Mixte</h4>
+                                        <span class="menu-item-price">22,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Chorizo doux et Chorizo Fort. Assortiments De Fromage, Selon La Sélection Du Moment.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Burrata Pesto</h4>
+                                        <span class="menu-item-price">11,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Burrata, Cernaux De Noix, Pesto, Basilic, Pain Grillé Artisanal.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Burrata Tomate</h4>
+                                        <span class="menu-item-price">11,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Burrata, Tapenade De Tomate, Pain Grillé Artisanal, Tomates & Tomates Confites.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Autres Spécialités</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Les Tartellettes X3</h4>
+                                        <span class="menu-item-price">7,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Poireau & Chèvre, Lardons & Comté, Oignons & Curry.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Les Toasts X6</h4>
+                                        <span class="menu-item-price">10,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Tomates, Basilic, Mozzarella / Avocat, Philadelphia / Poivrons, Fromage AFH / Bleu, Miel, Noix / Lardons, Moutarde / Tapenade, jambon blanc.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Les Baguettes Farcies</h4>
+                                        <span class="menu-item-price">7,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Pesto, Ail Des Ours & Chèvre, Crème, Moutarde, Lardons & Comté, Tomates Séchées, Mozzarella & Chorizo.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Les Terrines</h4>
+                                        <span class="menu-item-price">5,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Veuillez vous référer au serveur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nos Desserts -->
+                    <div class="menu-page" id="fondues-raclettes">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Fondues</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue Savoyarde</h4>
+                                        <span class="menu-item-price">20,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue Pomme</h4>
+                                        <span class="menu-item-price">21,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru. Jus de pomme, accompagnée de morceaux de pommes.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue au Bleu</h4>
+                                        <span class="menu-item-price">22,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru et prince des bleus.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue Rillauds</h4>
+                                        <span class="menu-item-price">22,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru et spécialité angevine.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue de la Loire</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru et galet de la Loire de la laiterie Tessier.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue Cèpes</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Mélange maison de fromages au lait cru et garnitures.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Raclettes</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Raclette Fermière</h4>
+                                        <span class="menu-item-price">23,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Fromage De Savoie Au Lait Cru.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Raclette Brézain</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Fromage Fumé De Savoie Au Lait Cru.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Raclette Ail des Ours</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Raclette De Savoie Au Lait Cru.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Raclette Piment d'Espelette</h4>
+                                        <span class="menu-item-price">27,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Raclette De Savoie Au Lait Cru (selon arrivage).</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Accompagnements</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Petite Salaison</h4>
+                                        <span class="menu-item-price">11,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Noix De Jambon, Carré.</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">La Grande Salaison</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Coppa, Jambon Sec, Jambon Blanc, Rosette, Noix De Jambon, Carré.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte des Boissons -->
+                    <div class="menu-page" id="carte-boissons">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Apéritifs Traditionnels</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Ricard - Suze</h4>
+                                        <span class="menu-item-price">2,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">3cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Jack Daniel's, Rhum</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">4cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Martini Rouge, Blanc</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">5cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Porto Rouge, Blanc</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">5cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Cidre Doux</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">33cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Soupe Angevine</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">12cl</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Kirs</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Kir Maison Vin Blanc</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">12cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Kir Maison Crémant</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">12cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Kir Maison Breton</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">12cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Kir Maison Royal</h4>
+                                        <span class="menu-item-price">6,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">8cl</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Softs</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Coca, Zéro, Cherry</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">33cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Orangina, Rauch Ice Tea</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">25cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Schweppes Tonic, Agrum</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">25cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Limonade La Piautre</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">33cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Diabolo</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Jus Des Vergers Manses</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Abricot, Fraise, Orange, Pomme, Tomate, Ananas, Pamplemousse (25cl)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Eaux & Sirops</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">San Pellegrino</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">50cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">San Pellegrino</h4>
+                                        <span class="menu-item-price">2,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">1L</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Sirop À L'eau</h4>
+                                        <span class="menu-item-price">2,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Bières</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Pression IPA</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">25cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Pression IPA</h4>
+                                        <span class="menu-item-price">7,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">50cl</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bouteille</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Blanche, Ambrée ou Blonde (33cl)</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bière Sans Alcool</h4>
+                                        <span class="menu-item-price">4,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">33cl</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Boissons Chaudes</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Expresso Ou Déca</h4>
+                                        <span class="menu-item-price">1,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Double Expresso</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Allongé</h4>
+                                        <span class="menu-item-price">2,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Chocolat Chaud</h4>
+                                        <span class="menu-item-price">3,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Thé, Tisane</h4>
+                                        <span class="menu-item-price">2,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Supplément Chantilly</h4>
+                                        <span class="menu-item-price">1,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cocktails Maison -->
+                    <div class="menu-page" id="cocktails">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Cocktails Maison</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Spritz Giffard</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Spritz (4cl), Prosecco, Eau Pétillante, Tranche D'Orange</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Limoncello Spritz</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Limoncello (4cl), Prosecco, Eau Pétillante, Tranche De Citron</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Expresso Martini</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Vodka (4cl), Liqueur De Café, Expresso</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Piña Colada</h4>
+                                        <span class="menu-item-price">7,50€</span>
+                                    </div>
+                                    <p class="menu-item-description">Rhum (4cl), Crème De Coco, Jus D'Ananas, Sirop De Canne</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Moscow Mule</h4>
+                                        <span class="menu-item-price">7,50€</span>
+                                    </div>
+                                    <p class="menu-item-description">Vodka (4cl), Jus De Citron, Ginger Beer</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Margarita</h4>
+                                        <span class="menu-item-price">8,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Téquila (4cl), Triple Sec (4cl), Jus De Citron, Eau Pétillante</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Cocktails Maison (suite)</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Tropical Crush</h4>
+                                        <span class="menu-item-price">8,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Rhum Ambré (4cl), Jus De Goyave, Eau De Coco, Jus D'Ananas Et Raisin</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Planteur</h4>
+                                        <span class="menu-item-price">7,50€</span>
+                                    </div>
+                                    <p class="menu-item-description">Rhum (4cl), Crème De Passion, Jus De Goyave, Jus D'Orange, Tranche d'Orange</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Cuba Libre</h4>
+                                        <span class="menu-item-price">7,50€</span>
+                                    </div>
+                                    <p class="menu-item-description">Rhum (4cl), Citron Vert, Coca-Cola</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Cosmopolitain</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Vodka (4cl), Triple Sec (4cl), Cramberry, Jus De Citron Vert</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">L'Aviation</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Gin (4cl), Crème De Violette, Jus De Citron, Liqueur De Cerise</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Jungle Bird</h4>
+                                        <span class="menu-item-price">7,90€</span>
+                                    </div>
+                                    <p class="menu-item-description">Rhum (4cl), Spritz Giffard, Jus D'Ananas Et Citron, Sirop De Canne</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Paloma</h4>
+                                        <span class="menu-item-price">7,50€</span>
+                                    </div>
+                                    <p class="menu-item-description">Tequila (4cl), Jus De Pamplemousse Et Citron, Sirop D'Agave, Eau Pétillante, Tranche De Pamplemousse</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte des Vins -->
+                    <div class="menu-page" id="carte-vins">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Vins Rouges</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Anjou Rouge COLLECTION N°1</h4>
+                                        <span class="menu-item-price">20,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Cuvée Clos Des 4 Routes</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Anjou Village Brissac</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Saumur Champigny VV Aunis</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Saint Nicolas Clos Vigneau</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Chinon Rouge Les Galuches</h4>
+                                        <span class="menu-item-price">25,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Brouilly Terres De Combia</h4>
+                                        <span class="menu-item-price">34,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Les Princesses Rouge Bio</h4>
+                                        <span class="menu-item-price">27,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bordeaux Château Bertin</h4>
+                                        <span class="menu-item-price">22,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">En Rouge Et Noir Malbec</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Vins Rosés</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Rosé De Loire</h4>
+                                        <span class="menu-item-price">17,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Cabernet D'Anjou</h4>
+                                        <span class="menu-item-price">17,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Château Montaud</h4>
+                                        <span class="menu-item-price">27,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Vins Blancs</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Anjou Blanc Sélection Chenin</h4>
+                                        <span class="menu-item-price">23,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Muscadet S&M Tourette</h4>
+                                        <span class="menu-item-price">17,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Entre Deux Mers Lande Bertin</h4>
+                                        <span class="menu-item-price">23,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Sauvignon Domaine Haut Fresne</h4>
+                                        <span class="menu-item-price">19,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Chardonnay Domaine Haut Fresne</h4>
+                                        <span class="menu-item-price">22,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Côte Du Rhone Visian</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bourgogne Le Soly</h4>
+                                        <span class="menu-item-price">38,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Vins Moelleux</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Coteaux Du Layon</h4>
+                                        <span class="menu-item-price">25,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Coteaux De L'Aubance</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Coteaux D'Ancenis</h4>
+                                        <span class="menu-item-price">29,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Malvoisie</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bonnezeaux Sélection</h4>
+                                        <span class="menu-item-price">39,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Bonnezeaux Prestige</h4>
+                                        <span class="menu-item-price">55,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Vins Pétillants</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Crémant De Loire Blanc</h4>
+                                        <span class="menu-item-price">24,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">TerreBrune</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Saumur Blanc Brut 150</h4>
+                                        <span class="menu-item-price">31,00€</span>
+                                    </div>
+                                    <p class="menu-item-description">Piedflond</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Prosecco Riccadonna</h4>
+                                        <span class="menu-item-price">26,00€</span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Enfants -->
+                    <div class="menu-page" id="menu-enfants">
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Menu Enfants (jusqu'à 12 ans)</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Menu P'tit Gourmet</h4>
+                                        <span class="menu-item-price">12€</span>
+                                    </div>
+                                    <p class="menu-item-description">Plat + Dessert + Boisson</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Plats au choix</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Steak Haché</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Steak haché frais, frites maison et ketchup</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Nuggets de Poulet</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Nuggets de poulet, frites maison et ketchup</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Pâtes Bolognaise</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Pâtes, sauce bolognaise maison et fromage râpé</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Jambon-Frites</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Jambon blanc, frites maison et ketchup</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Poulet Crunchy</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Poêlée de pomme de terre, salade verte</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Raclette Avec Adultes</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description"></p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Fondue Savoyarde</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Petite assiette de charcuterie, pomme de terre</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Desserts au choix</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Glace 2 Boules</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Vanille, chocolat, fraise ou caramel</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Mousse au Chocolat</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Mousse au chocolat maison</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Compote de Pommes</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Compote de pommes maison</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-category">
+                            <h3 class="menu-category-title">Boissons au choix</h3>
+                            <div class="menu-items">
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Sirop à l'eau</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Menthe, grenadine, fraise, citron ou pêche</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Jus de Fruits</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Orange, pomme ou multifruits</p>
+                                </div>
+                                
+                                <div class="menu-item">
+                                    <div class="menu-item-header">
+                                        <h4 class="menu-item-title">Soda</h4>
+                                        <span class="menu-item-price"></span>
+                                    </div>
+                                    <p class="menu-item-description">Coca-Cola ou Orangina</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suppression des flèches de navigation en bas de la carte -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>l'EntrePause</h2>
+                    <p>Une expérience culinaire exceptionnelle</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="carte.html">Carte</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 48 Rue du Général Leclerc, 49220 Le Lion-d'Angers</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+33771269070">07 71 26 90 70</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/lentrepause/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tripadvisor.com/Restaurant_Review-g4551684-d32758474-Reviews-L_entrepause-Le_Lion_d_Angers_Maine_et_Loire_Pays_de_la_Loire.html" target="_blank"><img src="images/tripadvisor.png" alt="TripAdvisor" style="width: 28px; height: 28px; vertical-align: middle; margin-bottom: 2px;"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 l'EntrePause. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des onglets du menu
+            const menuTabs = document.querySelectorAll('.menu-tab');
+            const menuPages = document.querySelectorAll('.menu-page');
+            const menuTabsScroll = document.querySelector('.menu-tabs-scroll');
+            const menuTabPrev = document.querySelector('.menu-tab-prev');
+            const menuTabNext = document.querySelector('.menu-tab-next');
+            let currentTabIndex = 0;
+            
+            // Fonction pour activer un onglet
+            function activateTab(index) {
+                // Désactiver tous les onglets et pages
+                menuTabs.forEach(tab => tab.classList.remove('active'));
+                menuPages.forEach(page => page.classList.remove('active'));
+                
+                // Activer l'onglet et la page correspondante
+                menuTabs[index].classList.add('active');
+                menuPages[index].classList.add('active');
+                
+                // Faire défiler l'onglet actif dans la vue
+                menuTabs[index].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+                
+                // Mettre à jour l'index courant
+                currentTabIndex = index;
+            }
+            
+            // Ajouter les écouteurs d'événements aux onglets
+            menuTabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    activateTab(index);
+                });
+            });
+            
+            // Gestion des boutons de navigation
+            if (menuTabPrev) {
+                menuTabPrev.addEventListener('click', () => {
+                    const newIndex = (currentTabIndex - 1 + menuTabs.length) % menuTabs.length;
+                    activateTab(newIndex);
+                });
+            }
+            
+            if (menuTabNext) {
+                menuTabNext.addEventListener('click', () => {
+                    const newIndex = (currentTabIndex + 1) % menuTabs.length;
+                    activateTab(newIndex);
+                });
+            }
+            
+            // Animation des éléments au scroll
+            const animateElements = document.querySelectorAll('.menu-category');
+            
+            function checkScroll() {
+                animateElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight * 0.9) {
+                        element.classList.add('in-view');
+                    }
+                });
+            }
+            
+            // Vérifier au chargement de la page
+            checkScroll();
+            
+            // Vérifier au scroll
+            window.addEventListener('scroll', checkScroll);
+            
+            // Ajouter une classe pour déclencher l'animation initiale
+            setTimeout(() => {
+                document.querySelectorAll('.menu-page.active .menu-category').forEach(category => {
+                    category.classList.add('in-view');
+                });
+            }, 100);
+            
+            // Gestion du mode sombre
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Vérifier si le mode sombre est déjà activé
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Basculer le mode sombre
+            darkModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+            
+            // Fonctionnalité de recherche et filtrage
+            const searchInput = document.getElementById('menuSearch');
+            const menuItems = document.querySelectorAll('.menu-item');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Fonction pour filtrer les plats
+            function filterItems() {
+                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+                const activeFilter = document.querySelector('.filter-btn.active') ? 
+                    document.querySelector('.filter-btn.active').dataset.filter : 'all';
+                
+                menuItems.forEach(item => {
+                    const title = item.querySelector('.menu-item-title').textContent.toLowerCase();
+                    const description = item.querySelector('.menu-item-description').textContent.toLowerCase();
+                    const isPopular = item.querySelector('.menu-item-badge') !== null;
+                    const isVegetarian = item.classList.contains('vegetarian');
+                    
+                    // Vérifier si l'élément correspond au terme de recherche
+                    const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                    
+                    // Vérifier si l'élément correspond au filtre actif
+                    let matchesFilter = true;
+                    if (activeFilter === 'vegetarian') {
+                        matchesFilter = isVegetarian;
+                    } else if (activeFilter === 'popular') {
+                        matchesFilter = isPopular;
+                    }
+                    
+                    // Afficher ou masquer l'élément
+                    if (matchesSearch && matchesFilter) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Vérifier si des sections sont vides et les masquer si nécessaire
+                checkEmptySections();
+            }
+            
+            // Fonction pour vérifier si des sections sont vides
+            function checkEmptySections() {
+                const sections = document.querySelectorAll('.menu-section');
+                
+                sections.forEach(section => {
+                    const visibleItems = section.querySelectorAll('.menu-item[style="display: flex;"]');
+                    const emptyMessage = section.querySelector('.empty-results-message') || createEmptyMessage(section);
+                    
+                    if (visibleItems.length === 0) {
+                        emptyMessage.style.display = 'block';
+                    } else {
+                        emptyMessage.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Fonction pour créer un message "Aucun résultat"
+            function createEmptyMessage(section) {
+                const message = document.createElement('p');
+                message.className = 'empty-results-message';
+                message.textContent = 'Aucun plat ne correspond à votre recherche.';
+                message.style.textAlign = 'center';
+                message.style.padding = '2rem';
+                message.style.display = 'none';
+                section.appendChild(message);
+                return message;
+            }
+            
+            // Événements pour la recherche et les filtres
+            if (searchInput) {
+                searchInput.addEventListener('input', filterItems);
+                
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Mettre à jour le bouton actif
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        // Filtrer les éléments
+                        filterItems();
+                    });
+                });
+                
+                // Marquer certains plats comme végétariens pour le filtrage
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    const title = item.querySelector('.menu-item-title').textContent.toLowerCase();
+                    const description = item.querySelector('.menu-item-description').textContent.toLowerCase();
+                    // Marquer les plats contenant des mots-clés végétariens
+                    if (title.includes('salade') || 
+                        description.includes('végétarien') || 
+                        description.includes('légumes') ||
+                        title.includes('végétarien')) {
+                        item.classList.add('vegetarian');
+                    }
+                });
+            }
+            
+            // Bouton retour en haut
+            const backToTopButton = document.getElementById('backToTop');
+            
+            if (backToTopButton) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('visible');
+                    } else {
+                        backToTopButton.classList.remove('visible');
+                    }
+                });
+                
+                backToTopButton.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

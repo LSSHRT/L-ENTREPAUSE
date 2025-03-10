@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>l'EntrePause - Restaurant à Le Lion-d'Angers</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/interieur3.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.1);
+            z-index: -1;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, background-color 0.3s;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: #d35400;
+        }
+        
+        /* Styles pour le mode sombre */
+        body.dark-mode .gallery-item {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .gallery-caption {
+            background-color: rgba(30, 30, 30, 0.9);
+        }
+        
+        body.dark-mode .gallery-caption h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .gallery-caption p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .service-card {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .service-card h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .service-card p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .service-card i {
+            color: var(--secondary-color);
+        }
+        
+        body.dark-mode .service-card:hover {
+            background-color: #3a3a3a;
+            transform: translateY(-10px);
+        }
+        
+        body.dark-mode .all-you-can-eat {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .all-you-can-eat-text h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .all-you-can-eat-text p,
+        body.dark-mode .all-you-can-eat-text ol {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .all-you-can-eat-text ol li {
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        body.dark-mode .hours {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .hours-table {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .hours-row {
+            border-bottom: 1px solid var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .hours-row:nth-child(odd) {
+            background-color: rgba(50, 50, 50, 0.5);
+        }
+        
+        body.dark-mode .hours-row:nth-child(even) {
+            background-color: rgba(40, 40, 40, 0.5);
+        }
+        
+        body.dark-mode .hours-row .day {
+            color: var(--white);
+            font-weight: 500;
+        }
+        
+        body.dark-mode .hours-info {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .hours-info p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .contact-card {
+            background-color: var(--dark-card-bg) !important;
+        }
+        
+        body.dark-mode .contact-card h3 {
+            color: var(--white) !important;
+        }
+        
+        body.dark-mode .contact-card p,
+        body.dark-mode .contact-card a {
+            color: var(--dark-text-color) !important;
+        }
+        
+        body.dark-mode .contact-card i {
+            color: var(--secondary-color);
+        }
+        
+        body.dark-mode .contact-card:hover {
+            background-color: #3a3a3a;
+        }
+        
+        /* Styles supplémentaires pour le mode sombre */
+        body.dark-mode .about {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .about-text p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .about-image img {
+            border: 1px solid var(--dark-border-color);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .services {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .contact-info {
+            background-color: var(--dark-bg) !important;
+        }
+        
+        body.dark-mode .map {
+            filter: grayscale(70%) invert(10%);
+        }
+        
+        body.dark-mode .hero-background {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('images/interieur3.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        body.dark-mode .hero-slide {
+            filter: brightness(0.8);
+        }
+        
+        body.dark-mode .status-indicator {
+            background-color: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .status-info {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .next-opening {
+            color: var(--dark-text-color);
+        }
+        
+        /* Corrections pour les sections en mode sombre */
+        body.dark-mode .all-you-can-eat-content {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .gallery {
+            background-color: var(--dark-bg);
+        }
+        
+        /* Styles supplémentaires pour le mode sombre */
+        body.dark-mode .all-you-can-eat {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .all-you-can-eat-content {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        body.dark-mode .all-you-can-eat-text h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .all-you-can-eat-text p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .all-you-can-eat-text ol li {
+            color: var(--dark-text-color);
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        body.dark-mode .all-you-can-eat-text strong {
+            color: var(--white);
+        }
+        
+        body.dark-mode .gallery-item img {
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .contact-info {
+            background-color: var(--dark-bg);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>l'EntrePause</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Accueil</a></li>
+                    <li><a href="carte.html">Carte</a></li>
+                    <li><a href="reservation.html">Réservation</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url('images/interieur3.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/interieur2.jpeg')"></div>
+            <div class="hero-slide" style="background-image: url('images/restaurant.jpg')"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="animate-on-scroll">Bienvenue à l'EntrePause</h2>
+            <p class="animate-on-scroll">Une expérience culinaire exceptionnelle à Le Lion-d'Angers</p>
+            <div class="hero-buttons animate-on-scroll">
+                <a href="reservation.html" class="btn btn-primary">
+                    <span class="btn-icon"><i class="fas fa-calendar-check"></i></span>
+                    <span class="btn-text">Réserver une table</span>
+                </a>
+                <a href="carte.html" class="btn btn-secondary">
+                    <span class="btn-icon"><i class="fas fa-utensils"></i></span>
+                    <span class="btn-text">Découvrir notre carte</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span class="mouse">
+                <span class="mouse-wheel"></span>
+            </span>
+            <span class="scroll-text">Défiler pour découvrir</span>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Restaurant</h2>
+                <p>Découvrez l'EntrePause</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>L'EntrePause vous accueille dans un cadre chaleureux et élégant pour vous offrir une expérience gastronomique inoubliable. Notre restaurant propose une cuisine raffinée avec des produits frais et de saison.</p>
+                    <p>Fondé en 2020 par notre chef passionné, l'EntrePause est né d'une volonté de créer un lieu convivial où la gastronomie française rencontre les saveurs du monde. Notre équipe dévouée s'engage à vous offrir un service attentionné et personnalisé.</p>
+                    <p>Notre philosophie culinaire repose sur trois piliers essentiels : des produits locaux et de saison, une cuisine faite maison, et une créativité constante dans nos plats. Nous travaillons en étroite collaboration avec des producteurs locaux pour vous garantir fraîcheur et qualité.</p>
+                    <p>Profitez de notre formule "à volonté" et de notre terrasse agréable lors des beaux jours.</p>
+                    <a href="carte.html" class="btn-secondary">Découvrir notre carte</a>
+                </div>
+                <div class="about-image">
+                    <img src="images/restaurant.jpg" alt="L'intérieur du restaurant l'EntrePause">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Intérieur</h2>
+                <p>Découvrez l'ambiance de notre restaurant</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/interieur2.jpeg" alt="Espace cave à vin du restaurant l'EntrePause">
+                    <div class="gallery-caption">
+                        <h3>Notre cave à vin</h3>
+                        <p>Une sélection de vins fins pour accompagner vos plats</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/interieur3.jpg" alt="Tables dressées du restaurant l'EntrePause">
+                    <div class="gallery-caption">
+                        <h3>Espace de restauration</h3>
+                        <p>Un cadre élégant pour votre repas</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/interieur4.jpg" alt="Mur végétal du restaurant l'EntrePause">
+                    <div class="gallery-caption">
+                        <h3>Notre mur végétal</h3>
+                        <p>Une touche de nature pour une ambiance apaisante</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Services</h2>
+                <p>Ce que nous vous proposons</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Formule à volonté</h3>
+                    <p>Profitez de notre formule à volonté pour découvrir toutes nos spécialités.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <h3>Terrasse</h3>
+                    <p>Savourez votre repas sur notre terrasse agréable lors des beaux jours.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Réservation</h3>
+                    <p>Réservation obligatoire pour vous garantir le meilleur service.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Moyens de paiement</h3>
+                    <p>Nous acceptons les Tickets Restaurant et Chèques Déjeuner.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="all-you-can-eat">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre Formule à Volonté</h2>
+                <p>Une expérience gastronomique sans limite</p>
+            </div>
+            <div class="all-you-can-eat-content">
+                <div class="all-you-can-eat-text">
+                    <h3>Découvrez notre concept unique</h3>
+                    <p>Notre formule à volonté vous permet de déguster l'ensemble de nos spécialités sans limitation. Profitez d'une expérience gastronomique complète dans une ambiance chaleureuse.</p>
+                    <p>Le concept est simple : choisissez parmi notre sélection d'entrées, plats et desserts, et commandez autant de fois que vous le souhaitez. Nos plats sont servis en portions dégustation pour vous permettre de goûter à tout.</p>
+                    <h3>Comment ça marche ?</h3>
+                    <ol>
+                        <li>Installez-vous confortablement à votre table</li>
+                        <li>Consultez notre carte et faites votre choix</li>
+                        <li>Commandez à votre rythme auprès de notre équipe</li>
+                        <li>Dégustez et recommandez autant que vous le souhaitez</li>
+                    </ol>
+                    <p><strong>Prix :</strong> 30€ - 40€ par personne (selon les options choisies)</p>
+                    <a href="reservation.html" class="btn">Réserver maintenant</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hours">
+        <div class="container">
+            <div class="section-header">
+                <h2>Horaires d'ouverture</h2>
+                <p>Quand nous rendre visite</p>
+            </div>
+            <div class="hours-content">
+                <div class="hours-table">
+                    <div class="hours-row">
+                        <div class="day">Lundi</div>
+                        <div class="time">12:00–14:00, 19:00–22:00</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Mardi</div>
+                        <div class="time">Fermé</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Mercredi</div>
+                        <div class="time">Fermé</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Jeudi</div>
+                        <div class="time">12:00–14:00, 19:00–22:00</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Vendredi</div>
+                        <div class="time">12:00–14:00, 19:00–22:00</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Samedi</div>
+                        <div class="time">12:00–14:00, 19:00–22:00</div>
+                    </div>
+                    <div class="hours-row">
+                        <div class="day">Dimanche</div>
+                        <div class="time">12:00–14:00, 19:00–22:00</div>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <p>Prix moyen par personne : 30–40 €</p>
+                    <div id="restaurant-status" class="status-indicator">
+                        <!-- Le contenu sera généré par JavaScript -->
+                    </div>
+                    <a href="reservation.html" class="btn">Réserver maintenant</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-info">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nous contacter</h2>
+                <p>Comment nous trouver</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Adresse</h3>
+                    <p>48 Rue du Général Leclerc<br>49220 Le Lion-d'Angers</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Téléphone</h3>
+                    <p><a href="tel:+33771269070">07 71 26 90 70</a></p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p><a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Horaires</h3>
+                    <p>Ouvert du jeudi au lundi<br>Fermé mardi et mercredi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2694.0248456789!2d-0.7232358843508565!3d47.62597997918548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48087b8d8c7c2d8d%3A0x4da7c6595e93edd3!2s48+Rue+du+G%C3%A9n%C3%A9ral+Leclerc%2C+49220+Le+Lion-d%27Angers!5e0!3m2!1sfr!2sfr!4v1684321234567!5m2!1sfr!2sfr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>l'EntrePause</h2>
+                    <p>Une expérience culinaire exceptionnelle</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 48 Rue du Général Leclerc, 49220 Le Lion-d'Angers</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+33771269070">07 71 26 90 70</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/lentrepause/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tripadvisor.com/Restaurant_Review-g4551684-d32758474-Reviews-L_entrepause-Le_Lion_d_Angers_Maine_et_Loire_Pays_de_la_Loire.html" target="_blank"><img src="images/tripadvisor.png" alt="TripAdvisor" style="width: 28px; height: 28px; vertical-align: middle; margin-bottom: 2px;"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 l'EntrePause. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Gestion du mode sombre
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // Vérifier si le mode sombre est déjà activé
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Basculer le mode sombre
+        darkModeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

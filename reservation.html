@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation - l'EntrePause</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .reservation-banner {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/interieur3.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-top: 70px;
+        }
+        
+        .reservation-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .reservation-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .reservation-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .reservation-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .form-group .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 2.5rem 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            outline: none;
+            background-color: white;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus::placeholder,
+        .form-group textarea:focus::placeholder {
+            opacity: 0.7;
+            transform: translateX(5px);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus + .input-icon,
+        .form-group select:focus + .input-icon,
+        .form-group textarea:focus + .input-icon {
+            color: var(--secondary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .form-submit {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .form-submit button {
+            padding: 1.2rem 2.5rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-submit button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .form-submit button:hover {
+            background-color: #d35400;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .form-submit button:hover::before {
+            left: 100%;
+        }
+        
+        .form-submit button i {
+            font-size: 1.2rem;
+        }
+        
+        .reservation-info {
+            background-color: var(--light-bg);
+            padding: 4rem 0;
+        }
+        
+        .reservation-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .reservation-info-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .reservation-info-card h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .reservation-info-card p {
+            margin-bottom: 1rem;
+        }
+        
+        .reservation-info-card ul {
+            list-style-position: inside;
+            margin-bottom: 1rem;
+        }
+        
+        .reservation-info-card ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+        
+        .checkbox-label:hover {
+            background-color: rgba(231, 76, 60, 0.05);
+        }
+        
+        .checkbox-label input {
+            width: auto;
+            margin-right: 0.8rem;
+            accent-color: var(--secondary-color);
+            transform: scale(1.2);
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            padding: 0.8rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .payment-method:hover {
+            background-color: #e9e9e9;
+        }
+        
+        .payment-method i {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-right: 0.8rem;
+        }
+        
+        /* Style spécifique pour les champs select */
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8.825L1.175 4 2.238 2.938 6 6.7 9.763 2.938 10.825 4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 3rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+        
+        /* Style spécifique pour les champs date */
+        .form-group input[type="date"] {
+            padding-right: 3rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: none;
+        }
+        
+        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        
+        /* Style spécifique pour les textarea */
+        .form-group textarea + .input-icon {
+            top: 1.5rem;
+            transform: none;
+        }
+        
+        .form-group textarea:focus + .input-icon {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .reservation-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .form-submit {
+                grid-column: span 1;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Ajustements pour les icônes sur mobile */
+            .form-group .input-icon {
+                right: 10px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding-right: 2.2rem;
+            }
+        }
+        
+        /* Ajout du style pour le bouton de mode nuit */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .dark-mode-toggle:hover {
+            background-color: var(--secondary-color);
+            transform: rotate(30deg);
+        }
+        
+        .dark-mode-toggle i {
+            transition: all 0.3s ease;
+        }
+        
+        /* Styles spécifiques pour le mode sombre */
+        body.dark-mode .reservation-form-container {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .reservation-info-card {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .reservation-info-card h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .checkbox-label {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .checkbox-label:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        body.dark-mode .payment-method {
+            background-color: #333;
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .payment-method:hover {
+            background-color: #444;
+        }
+        
+        body.dark-mode .form-group input::placeholder,
+        body.dark-mode .form-group textarea::placeholder {
+            color: #777;
+        }
+        
+        body.dark-mode .form-group .input-icon {
+            color: #777;
+        }
+        
+        body.dark-mode .form-group input:focus + .input-icon,
+        body.dark-mode .form-group select:focus + .input-icon,
+        body.dark-mode .form-group textarea:focus + .input-icon {
+            color: var(--secondary-color);
+        }
+        
+        body.dark-mode .reservation-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('images/interieur3.jpg');
+        }
+        
+        body.dark-mode .reservation-info {
+            background-color: var(--dark-bg);
+        }
+        
+        body.dark-mode .reservation-info-card ul {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .reservation-info-card ul li {
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        body.dark-mode .reservation-info-card ul li strong {
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>l'EntrePause</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="carte.html">Carte</a></li>
+                    <li><a href="reservation.html" class="active">Réservation</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="reservation-banner">
+        <h2>Réservez votre table</h2>
+        <p>La réservation est obligatoire pour vous garantir le meilleur service. Complétez le formulaire ci-dessous ou appelez-nous directement.</p>
+        <a href="tel:+33771269070" class="btn"><i class="fas fa-phone"></i> 07 71 26 90 70</a>
+    </section>
+
+    <section class="reservation-form-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Formulaire de réservation</h2>
+                <p>Réservez en quelques clics</p>
+            </div>
+            
+            <div class="reservation-form-container">
+                <form class="reservation-form" id="reservationForm">
+                    <div class="form-group">
+                        <label for="name">Nom et prénom *</label>
+                        <input type="text" id="name" name="name" placeholder="Votre nom complet" required>
+                        <i class="input-icon fas fa-user"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="votre.email@exemple.com" required>
+                        <i class="input-icon fas fa-envelope"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" required>
+                        <i class="input-icon fas fa-phone"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guests">Nombre de personnes *</label>
+                        <select id="guests" name="guests" required>
+                            <option value="">Sélectionnez le nombre de convives</option>
+                            <option value="1">1 personne</option>
+                            <option value="2">2 personnes</option>
+                            <option value="3">3 personnes</option>
+                            <option value="4">4 personnes</option>
+                            <option value="5">5 personnes</option>
+                            <option value="6">6 personnes</option>
+                            <option value="7+">7 personnes ou plus</option>
+                        </select>
+                        <i class="input-icon fas fa-users"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input type="date" id="date" name="date" required>
+                        <i class="input-icon fas fa-calendar-alt"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time">Heure *</label>
+                        <select id="time" name="time" required>
+                            <option value="">Choisissez l'heure</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                            <option value="20:30">20:30</option>
+                            <option value="21:00">21:00</option>
+                        </select>
+                        <i class="input-icon fas fa-clock"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="occasion">Occasion spéciale</label>
+                        <select id="occasion" name="occasion">
+                            <option value="">Sélectionnez (optionnel)</option>
+                            <option value="anniversaire">Anniversaire</option>
+                            <option value="anniversaire-mariage">Anniversaire de mariage</option>
+                            <option value="business">Repas d'affaires</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                        <i class="input-icon fas fa-glass-cheers"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Préférences alimentaires</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="dietary_vegetarian" value="1">
+                                Végétarien
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="dietary_vegan" value="1">
+                                Végétalien
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="dietary_gluten_free" value="1">
+                                Sans gluten
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="dietary_lactose_free" value="1">
+                                Sans lactose
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="message">Demandes spéciales</label>
+                        <textarea id="message" name="message" placeholder="Allergies, demandes particulières, ou toute autre information que vous souhaitez nous communiquer."></textarea>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Réserver maintenant</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="reservation-info">
+        <div class="container">
+            <div class="section-header">
+                <h2>Informations importantes</h2>
+                <p>Pour préparer votre venue</p>
+            </div>
+            
+            <div class="reservation-info-grid">
+                <div class="reservation-info-card">
+                    <h3>Politique de réservation</h3>
+                    <p>La réservation est <strong>obligatoire</strong> pour garantir votre table. Nous vous remercions de nous prévenir en cas d'annulation ou de retard.</p>
+                    <p>Pour les groupes de plus de 6 personnes, veuillez nous contacter directement par téléphone.</p>
+                </div>
+                
+                <div class="reservation-info-card">
+                    <h3>Horaires d'ouverture</h3>
+                    <ul>
+                        <li><strong>Lundi:</strong> 12:00–14:00, 19:00–22:00</li>
+                        <li><strong>Mardi:</strong> Fermé</li>
+                        <li><strong>Mercredi:</strong> Fermé</li>
+                        <li><strong>Jeudi:</strong> 12:00–14:00, 19:00–22:00</li>
+                        <li><strong>Vendredi:</strong> 12:00–14:00, 19:00–22:00</li>
+                        <li><strong>Samedi:</strong> 12:00–14:00, 19:00–22:00</li>
+                        <li><strong>Dimanche:</strong> 12:00–14:00, 19:00–22:00</li>
+                    </ul>
+                </div>
+                
+                <div class="reservation-info-card">
+                    <h3>Moyens de paiement</h3>
+                    <p>Nous acceptons les moyens de paiement suivants :</p>
+                    <div class="payment-methods">
+                        <div class="payment-method">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Espèces</span>
+                        </div>
+                        <div class="payment-method">
+                            <i class="far fa-credit-card"></i>
+                            <span>Cartes bancaires</span>
+                        </div>
+                        <div class="payment-method">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span>Tickets Restaurant</span>
+                        </div>
+                        <div class="payment-method">
+                            <i class="fas fa-receipt"></i>
+                            <span>Chèques Déjeuner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>l'EntrePause</h2>
+                    <p>Une expérience culinaire exceptionnelle</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 48 Rue du Général Leclerc, 49220 Le Lion-d'Angers</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+33771269070">07 71 26 90 70</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/lentrepause/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tripadvisor.com/Restaurant_Review-g4551684-d32758474-Reviews-L_entrepause-Le_Lion_d_Angers_Maine_et_Loire_Pays_de_la_Loire.html" target="_blank"><img src="images/tripadvisor.png" alt="TripAdvisor" style="width: 28px; height: 28px; vertical-align: middle; margin-bottom: 2px;"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 l'EntrePause. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Simple form validation
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre réservation ! Nous vous contacterons rapidement pour confirmer.');
+            this.reset();
+        });
+        
+        // Gestion du mode sombre
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Vérifier si le mode sombre est déjà activé
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Basculer le mode sombre
+            darkModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+        });
+    </script>
+    
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+</body>
+</html>

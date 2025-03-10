@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - l'EntrePause</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .contact-banner {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('images/interieur3.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-top: 70px;
+        }
+        
+        .contact-banner h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .contact-section {
+            padding: 5rem 0;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .contact-info {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-info h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-info-item i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+        
+        .contact-info-item .content h4 {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info-item .content p,
+        .contact-info-item .content a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .contact-info-item .content a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .contact-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-form h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            text-align: right;
+        }
+        
+        .form-submit button {
+            padding: 1rem 2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit button:hover {
+            background-color: #d35400;
+        }
+        
+        .map-section {
+            padding: 0;
+        }
+        
+        .map-section iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+        }
+        
+        .hours-section {
+            background: var(--light-bg);
+            padding: 4rem 0;
+            color: var(--text-color);
+        }
+        
+        .hours-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hours-table {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        
+        /* Styles pour la section FAQ */
+        .faq-section {
+            background: var(--light-bg);
+            padding: 4rem 0;
+            color: var(--text-color);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 2rem auto 0;
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .faq-question:hover {
+            background-color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .faq-toggle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            color: #333;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .dark-mode-toggle i {
+            transition: all 0.3s ease;
+        }
+        
+        /* Styles spécifiques pour le mode sombre */
+        body.dark-mode .contact-info,
+        body.dark-mode .contact-form {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .contact-info h3,
+        body.dark-mode .contact-form h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .contact-info-item .content h4 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .contact-info-item .content p,
+        body.dark-mode .contact-info-item .content a {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .contact-info-item .content a:hover {
+            color: var(--secondary-color);
+        }
+        
+        body.dark-mode .form-group label {
+            color: var(--white);
+        }
+        
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group textarea {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .form-group input:focus,
+        body.dark-mode .form-group textarea:focus {
+            background-color: #333;
+            border-color: var(--secondary-color);
+        }
+        
+        body.dark-mode .contact-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('images/interieur3.jpg');
+        }
+        
+        body.dark-mode .hours-section,
+        body.dark-mode .faq-section {
+            background-color: var(--dark-bg);
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .hours-table {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+            border: 1px solid var(--dark-border-color);
+        }
+        
+        body.dark-mode .hours-row {
+            border-bottom: 1px solid var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .hours-row:nth-child(odd) {
+            background-color: rgba(50, 50, 50, 0.5);
+        }
+        
+        body.dark-mode .hours-row:nth-child(even) {
+            background-color: rgba(40, 40, 40, 0.5);
+        }
+        
+        body.dark-mode .hours-row .day {
+            color: var(--white);
+            font-weight: 500;
+        }
+        
+        body.dark-mode .hours-row .time {
+            color: var(--dark-text-color);
+        }
+        
+        /* Styles spécifiques pour les jours fermés */
+        body.dark-mode .hours-row:nth-child(2) .time,
+        body.dark-mode .hours-row:nth-child(3) .time {
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+        
+        body.dark-mode .section-header h2 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .section-header p {
+            color: var(--dark-text-color);
+        }
+        
+        body.dark-mode .faq-item {
+            background-color: var(--dark-card-bg);
+            box-shadow: var(--shadow-dark);
+        }
+        
+        body.dark-mode .faq-question h3 {
+            color: var(--white);
+        }
+        
+        body.dark-mode .faq-question:hover {
+            background-color: rgba(50, 50, 50, 0.9);
+        }
+        
+        body.dark-mode .faq-answer {
+            color: var(--dark-text-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>l'EntrePause</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="carte.html">Carte</a></li>
+                    <li><a href="reservation.html">Réservation</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="contact-banner">
+        <h2>Contactez-nous</h2>
+        <p>Nous sommes à votre écoute pour toute question ou demande d'information. N'hésitez pas à nous contacter.</p>
+        <a href="tel:+33771269070" class="btn"><i class="fas fa-phone"></i> 07 71 26 90 70</a>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Nos Coordonnées</h3>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="content">
+                        <h4>Adresse</h4>
+                        <p>48 Rue du Général Leclerc<br>49220 Le Lion-d'Angers</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-phone"></i>
+                    <div class="content">
+                        <h4>Téléphone</h4>
+                        <p><a href="tel:+33771269070">07 71 26 90 70</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="content">
+                        <h4>Email</h4>
+                        <p><a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="content">
+                        <h4>Horaires d'ouverture</h4>
+                        <p>Lundi, Jeudi, Vendredi, Samedi, Dimanche:<br>12:00–14:00, 19:00–22:00</p>
+                        <p>Mardi, Mercredi: Fermé</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-credit-card"></i>
+                    <div class="content">
+                        <h4>Moyens de paiement</h4>
+                        <p>Espèces, Cartes bancaires<br>Tickets Restaurant, Chèques Déjeuner</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-tags"></i>
+                    <div class="content">
+                        <h4>Prix moyen</h4>
+                        <p>30–40 € par personne</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Envoyez-nous un message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nom et prénom *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Sujet *</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn">Envoyer le message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Questions Fréquentes</h2>
+                <p>Tout ce que vous devez savoir</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Comment fonctionne la formule à volonté ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Notre formule à volonté vous permet de déguster l'ensemble de nos spécialités sans limitation. Vous pouvez commander autant de plats que vous le souhaitez, servis en portions dégustation. Le prix est fixe, entre 30€ et 40€ par personne selon les options choisies.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>La réservation est-elle obligatoire ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, la réservation est fortement recommandée, surtout les week-ends et jours fériés. Vous pouvez réserver par téléphone au 07 71 26 90 70 ou via notre formulaire de réservation en ligne.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Proposez-vous des options végétariennes/végétaliennes ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, nous proposons plusieurs options végétariennes et végétaliennes dans notre menu. N'hésitez pas à nous informer de vos préférences alimentaires lors de votre réservation.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Acceptez-vous les chiens en terrasse ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, les chiens tenus en laisse sont acceptés en terrasse. Pour des raisons d'hygiène, ils ne sont pas admis à l'intérieur du restaurant.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Proposez-vous des menus pour enfants ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, nous proposons un menu enfant à 15€ comprenant un plat, un dessert et une boisson. Les enfants de moins de 5 ans bénéficient d'un tarif réduit pour la formule à volonté.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Peut-on privatiser le restaurant pour un événement ?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oui, il est possible de privatiser le restaurant pour des événements spéciaux (mariages, anniversaires, séminaires, etc.). Contactez-nous pour plus d'informations et pour établir un devis personnalisé.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2694.0248456789!2d-0.7232358843508565!3d47.62597997918548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48087b8d8c7c2d8d%3A0x4da7c6595e93edd3!2s48+Rue+du+G%C3%A9n%C3%A9ral+Leclerc%2C+49220+Le+Lion-d%27Angers!5e0!3m2!1sfr!2sfr!4v1684321234567!5m2!1sfr!2sfr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <section class="hours-section">
+        <div class="hours-container">
+            <div class="section-header">
+                <h2>Horaires d'ouverture</h2>
+                <p>Quand nous rendre visite</p>
+            </div>
+            
+            <div class="hours-table">
+                <div class="hours-row">
+                    <div class="day">Lundi</div>
+                    <div class="time">12:00–14:00, 19:00–22:00</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Mardi</div>
+                    <div class="time">Fermé</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Mercredi</div>
+                    <div class="time">Fermé</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Jeudi</div>
+                    <div class="time">12:00–14:00, 19:00–22:00</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Vendredi</div>
+                    <div class="time">12:00–14:00, 19:00–22:00</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Samedi</div>
+                    <div class="time">12:00–14:00, 19:00–22:00</div>
+                </div>
+                <div class="hours-row">
+                    <div class="day">Dimanche</div>
+                    <div class="time">12:00–14:00, 19:00–22:00</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>l'EntrePause</h2>
+                    <p>Une expérience culinaire exceptionnelle</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="reservation.html">Réservation</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 48 Rue du Général Leclerc, 49220 Le Lion-d'Angers</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+33771269070">07 71 26 90 70</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:contact@entrepause.fr">contact@entrepause.fr</a></p>
+                </div>
+                <div class="footer-social">
+                    <h3>Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/lentrepause/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tripadvisor.com/Restaurant_Review-g4551684-d32758474-Reviews-L_entrepause-Le_Lion_d_Angers_Maine_et_Loire_Pays_de_la_Loire.html" target="_blank"><img src="images/tripadvisor.png" alt="TripAdvisor" style="width: 28px; height: 28px; vertical-align: middle; margin-bottom: 2px;"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 l'EntrePause. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Simple form validation
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+            this.reset();
+        });
+        
+        // FAQ toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Fermer tous les autres items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle l'item actuel
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Gestion du mode sombre
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Vérifier si le mode sombre est déjà activé
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Basculer le mode sombre
+            darkModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+        });
+    </script>
+    
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+</body>
+</html>
